@@ -39,7 +39,6 @@ const compareAnswers = event => {
             if (counter === score) {
                 clearInterval(timer)
             }
-            // insertSpanIntoDOM(span, `${counter}%`, 'beforeend', points)
             insertSpanIntoDOM({ el: span, text: `${counter}%`, position: 'beforeend', tag: points })
             counter++
         }, 10);
