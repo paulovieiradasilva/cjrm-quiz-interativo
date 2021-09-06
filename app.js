@@ -1,7 +1,7 @@
 const form = document.querySelector('.form-countries')
 const points = document.querySelector('#score')
 
-const correctAnswers = ['A', 'A', 'A', 'A']
+const correctAnswers = ['B', 'C', 'A', 'D']
 
 const span = document.createElement('span')
 span.classList.add('badge', 'bg-secondary', 'lg')
@@ -10,6 +10,8 @@ const insertSpanIntoDOM = ({ el, text, position, tag }) => {
     el.textContent = text
     tag.insertAdjacentElement(position, el)
 }
+
+const toTop = ({ x, y }) => scrollTo(x, y)
 
 insertSpanIntoDOM({ el: span, text: 0, position: 'beforeend', tag: points })
 
@@ -24,8 +26,9 @@ const compareAnswers = event => {
     ]
 
     let score = 0
-    
-    scrollTo(0, 0)
+
+    toTop({ x: 0, y: 0 })
+
     points.classList.remove('d-none')
 
     userAnswers.forEach((userAsnwer, index) => {
