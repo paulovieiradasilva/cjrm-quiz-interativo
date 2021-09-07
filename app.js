@@ -1,52 +1,58 @@
 const form = document.querySelector('.form-countries')
-const points = document.querySelector('#score')
-
+const finalScoreContainer = document.querySelector('.final-score-container')
 const correctAnswers = ['B', 'C', 'A', 'D']
 
-const span = document.createElement('span')
-span.classList.add('badge', 'bg-secondary', 'lg')
+let score = 0
 
-const insertSpanIntoDOM = ({ el, text, position, tag }) => {
-    el.textContent = text
-    tag.insertAdjacentElement(position, el)
+const resetScore = () => score = 0
+
+const getUserAnswer = () => {
+    let userAnswers = []
+
+    correctAnswers.forEach((_, index) => {
+        const userAnswer = form[`question${index + 1}`].value
+        userAnswers.push(userAnswer)
+    })
+
+    return userAnswers
 }
 
-const toTop = ({ x, y }) => scrollTo(x, y)
-
-insertSpanIntoDOM({ el: span, text: 0, position: 'beforeend', tag: points })
-
-const compareAnswers = event => {
-    event.preventDefault()
-
-    const userAnswers = [
-        form.question1.value,
-        form.question2.value,
-        form.question3.value,
-        form.question4.value
-    ]
-
-    let score = 0
-
-    toTop({ x: 0, y: 0 })
-
-    points.classList.remove('d-none')
-
-    userAnswers.forEach((userAsnwer, index) => {
-        if (userAsnwer === correctAnswers[index]) {
+const calculateUserScore = (userAnswers) => {
+    userAnswers.forEach((userAnsnwer, index) => {
+        const isUserAnswerCorrect = userAnsnwer === correctAnswers[index]
+        if (isUserAnswerCorrect) {
             score += 25
         }
-
-        let counter = 0
-
-        const timer = setInterval(() => {
-            if (counter === score) {
-                clearInterval(timer)
-            }
-            insertSpanIntoDOM({ el: span, text: `${counter}%`, position: 'beforeend', tag: points })
-            counter++
-        }, 10);
-
     })
 }
 
-form.addEventListener('submit', compareAnswers)
+const showFinalScore = () => {
+    scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+    })
+
+    finalScoreContainer.classList.remove('d-none')
+}
+
+const animateFinalScore = () => {
+    let counter = 0
+
+    const timer = setInterval(() => {
+        if (counter === score) {
+            clearInterval(timer)
+        }
+        finalScoreContainer.querySelector('span').textContent = `${counter++}%`
+    }, 10);
+}
+
+form.addEventListener('submit', event => {
+    event.preventDefault()
+    const userAnswers = getUserAnswer()
+
+    resetScore()
+    calculateUserScore(userAnswers)
+    showFinalScore()
+    animateFinalScore()
+})
