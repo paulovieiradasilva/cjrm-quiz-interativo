@@ -55,4 +55,6 @@ form.addEventListener('submit', event => {
     calculateUserScore(userAnswers)
     showFinalScore()
     animateFinalScore()
+
+    form.reset()
 })
