@@ -6,16 +6,7 @@ let score = 0
 
 const resetScore = () => score = 0
 
-const getUserAnswer = () => {
-    let userAnswers = []
-
-    correctAnswers.forEach((_, index) => {
-        const userAnswer = form[`question${index + 1}`].value
-        userAnswers.push(userAnswer)
-    })
-
-    return userAnswers
-}
+const getUserAnswer = () => correctAnswers.map((_, index) => form[`question${index + 1}`].value)
 
 const calculateUserScore = (userAnswers) => {
     userAnswers.forEach((userAnsnwer, index) => {
